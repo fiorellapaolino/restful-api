@@ -4,8 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from marshmallow import fields
 from dataclasses import dataclass
-from sqlalchemy.orm import session
-#from models import db, Stock, Client, Orders
+from sqlalchemy.orm import session, declarative_base, mapper
+# from models import db, Stock, Client, Orders
 import datetime
 import time
 from flask_cors import CORS, cross_origin
@@ -28,6 +28,9 @@ class Stock(db.Model):
     id_stock = db.Column(db.Integer, primary_key=True)
     name_crystal = db.Column(db.String(45), nullable=False)
     quantity = db.Column(db.Integer)
+    __mapper_args__ = {
+        'polymorphic_identity': 'stock'
+    }
 
     def __init__(self, name_crystal, quantity):
         self.name_crystal = name_crystal
@@ -39,6 +42,7 @@ class StockSchema(ma.Schema):
     name_crystal = fields.String(required=True, error_messages={
                                  "required": "Name Crystal is required."})
     quantity = fields.Integer(required=False)
+
 
 # stock READ
 
@@ -135,6 +139,9 @@ class Client(db.Model):
     __tablename__ = "client"
     id_client = db.Column(db.Integer, primary_key=True)
     name_client = db.Column(db.String(60), nullable=False)
+    __mapper_args__ = {
+        'polymorphic_identity': 'client'
+    }
 
     def __init__(self, name_client):
         self.name_client = name_client
@@ -230,6 +237,9 @@ class Orders(db.Model):
     quantity = db.Column(db.Integer)
     id_client = db.Column(db.Integer)
     time = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    __mapper_args__ = {
+        'polymorphic_identity': 'orders'
+    }
 
 
 def __init__(self, quantity, name_client, name_crystal, id_client, id_order, id_stock):
@@ -293,11 +303,10 @@ def get_orders():
 
 @app.route('/ordersjoin', methods=['GET'])
 def join_get():
-    results = db.session.query(Orders, Stock, Client). \
-        select_from<Orders>(Orders).join(Stock).join(Client).all()
-    print(results)
-    for orders, stock, client in results:
-        print(orders.id_order, stock.name_crystal, client.name_client)
+    join = db.session.query(Stock, Orders, Client).filter(
+        Orders.id_stock == Stock.id_stock,
+        Orders.id_client == Client.id_client).all()
     orders_schema = OrdersSchema(many=True)
-    ordersjoin = orders_schema.dump(join_get)
-    return make_response(jsonify(ordersjoin), 200)
+    ordersjoin = orders_schema.dump(join)
+    print(join)
+    return make_response(({"join": ordersjoin}), 200)
