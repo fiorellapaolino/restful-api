@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="table-wrapper">
+    <div class="table-title">
+      <div class="row">
+        <div class="col-sm-6">
+          <h2>
+            Manage <b>{{ title }}</b> by CrystalShop
+          </h2>
+        </div>
+        <div class="col-sm-6">
+          <button
+            class="btn btn-success"
+            type="button"
+            data-toggle="modal"
+            [routerLink]="['/neworder']"
+          >
+            <i class="icon-plus"></i> <span>Add New Order</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Id client</th>
+          <th>Id stock</th>
+          <th>Quantity</th>
+          <th>Name Crystal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let item of items">
+          <tr *ngFor="let ord of orders">
+            <td>
+              <span>{{ ord.id_client }}</span>
+            </td>
+            <td>
+              <span>{{ ord.id_stock }} </span>
+            </td>
+            <td>
+              <span>{{ ord.quantity }} </span>
+            </td>
+            <td>
+              {{ item.name_crystal }}
+            </td>
+          </tr>
+        </ng-container>
+        <!-- <tr *ngFor="let item of items">
+          <td>
+            <span>{{ item.name_crystal }}</span>
+          </td>
+        </tr> -->
+      </tbody>
+    </table>
+  </div>
+</div>

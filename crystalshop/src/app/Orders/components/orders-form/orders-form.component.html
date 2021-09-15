@@ -1,0 +1,78 @@
+<section class="get-in-touch">
+  <h1 class="title">Order's entry</h1>
+  <h6 class="subtitle">by CrystalShop</h6>
+  <form class="contact-form row">
+    <div class="form-field col-lg-6">
+      <!-- <input
+        id="name"
+        class="input-text js-input"
+        type="text"
+        [(ngModel)]="order.name_crystal"
+        [ngModelOptions]="{ standalone: true }"
+        autofocus
+      /> -->
+      <label class="label" for="name">Name Crystal</label>
+      <select
+        [(ngModel)]="order.name_crystal"
+        [ngModelOptions]="{ standalone: true }"
+      >
+        <option *ngFor="let item of items" [ngValue]="item.name_crystal">
+          {{ item.name_crystal }}
+        </option>
+      </select>
+    </div>
+    <div class="form-field col-lg-6">
+      <!-- <input
+        id="quantity"
+        class="input-text js-input"
+        type="text"
+        [(ngModel)]="order.name_client"
+        [ngModelOptions]="{ standalone: true }"
+        required
+      /> -->
+      <select
+        [(ngModel)]="order.name_client"
+        [ngModelOptions]="{ standalone: true }"
+      >
+        <option *ngFor="let client of clients" [ngValue]="client.name_client">
+          {{ client.name_client }}
+        </option>
+      </select>
+      <label class="label" for="name_client">Name Client</label>
+    </div>
+
+
+    <div class="form-field col-lg-6">
+      <select
+        [(ngModel)]="order.name_client"
+        [ngModelOptions]="{ standalone: true }"
+      >
+        <option *ngFor="let item of items" [ngValue]="item.quantity">
+          {{ item.quantity }}
+        </option>
+      </select>
+      <label class="label" for="name_client">Quantity Stock</label>
+    </div>
+
+
+    <div class="form-field col-lg-6">
+      <input
+        id="name_client"
+        class="input-text js-input"
+        type="text"
+        [(ngModel)]="order.quantity"
+        [ngModelOptions]="{ standalone: true }"
+        required
+      />
+      <label class="label" for="quantity">Quantity</label>
+    </div>
+    <div class="form-field col-lg-12">
+      <input
+        class="submit-btn"
+        type="submit"
+        value="Submit"
+        (click)="saveNewOrder(order)"
+      />
+    </div>
+  </form>
+</section>

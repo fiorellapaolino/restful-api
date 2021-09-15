@@ -1,0 +1,18 @@
+<section class="get-in-touch">
+    <h1 class="title">Customer's entry</h1>
+    <h6 class="subtitle"> by CrystalShop</h6>
+    <form class="contact-form row">
+        <div class="form-field col-xs-12 center-block">
+          <input id="name" class="input-text js-input" type="text" [(ngModel)]="client.name_client" [ngModelOptions]="{standalone: true}" autofocus>
+          <label class="label" for="name">Name Client</label>
+       </div>
+       <div class="form-field col-lg-12" >
+        <input 
+        class="submit-btn" 
+        type="submit" 
+        value="Submit" 
+        (click)="edit ? updateClients() : saveNewClient(client)"
+        >
+     </div>
+    </form>
+  </section>

@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="table-wrapper">
+    <div class="table-title">
+      <div class="row">
+        <div class="col-sm-6">
+          <h2>Manage <b>Clients</b> by CrystalShop</h2>
+        </div>
+        <div class="col-sm-6">
+          <button [routerLink]="['/newclient']" class="btn btn-success" type="button" data-toggle="modal">
+            <i class="icon-plus"></i> <span>Add New Client</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Clients</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let client of clients">
+          <td>
+            <span>{{ client.name_client }}</span>
+          </td>
+          <td>
+            <a class="edit" data-toggle="modal" [routerLink]="['edit/', client.id_client]"
+              ><i class="icon-pencil" data-toggle="tooltip" title="Edit"></i
+            ></a>
+            <a class="delete" data-toggle="modal" (click)="delete(client.id_client)"
+              ><i class="icon-trash" data-toggle="tooltip" title="Delete"></i
+            ></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
