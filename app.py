@@ -8,7 +8,7 @@ from sqlalchemy.orm import session, declarative_base, mapper
 # from models import db, Stock, Client, Orders
 import datetime
 import time
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://crystaldev:lmao@localhost/crystalshop'
@@ -49,7 +49,7 @@ class StockSchema(ma.Schema):
 
 @app.route('/stock', methods=['GET'])
 def index():
-    get_stock = Stock.query.all()
+    get_stock = db.session.query(Stock).all()
     stock_schema = StockSchema(many=True)
     stock = stock_schema.dump(get_stock)
     return make_response(jsonify(stock))
@@ -72,7 +72,6 @@ def get_stock_by_id(id_stock):
 @app.route('/newstock', methods=['POST'])
 def create_stock():
     data = request.get_json()
-    print(data['quantity'])
     if not ('name_crystal' or 'quantity') in data:
         return make_response(jsonify({"Error": "Fields are required."}), 400)
     find = Stock.query.filter_by(name_crystal=data['name_crystal']).first()
@@ -156,7 +155,8 @@ class ClientSchema(ma.Schema):
 
 @app.route('/client', methods=['GET'])
 def client():
-    get_client = Client.query.all()
+    # get_client = Client.query.all()
+    get_client = db.session.query(Client).all()
     client_schema = ClientSchema(many=True)
     client = client_schema.dump(get_client)
     return make_response(jsonify(client), 200)
@@ -237,9 +237,8 @@ class Orders(db.Model):
     quantity = db.Column(db.Integer)
     id_client = db.Column(db.Integer)
     time = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    __mapper_args__ = {
-        'polymorphic_identity': 'orders'
-    }
+    name_client = db.Column(db.String(60))
+    name_crystal = db.Column(db.String(60))
 
 
 def __init__(self, quantity, name_client, name_crystal, id_client, id_order, id_stock):
@@ -258,6 +257,9 @@ class OrdersSchema(ma.Schema):
     quantity = fields.Integer()
     id_client = fields.Integer()
     time = fields.DateTime()
+    name_crystal = fields.String()
+    name_client = fields.String()
+
 
 # Orders CREATE
 
@@ -280,33 +282,51 @@ def create_order():
         quantity=data['quantity'],
         id_stock=find_name_crystal.id_stock,
         id_client=find_name_client.id_client,
+        name_crystal=data['name_crystal'],
+        name_client=data['name_client']
     )
     db.session.add(new_order)
-    find_name_crystal.quantity = find_name_crystal.quantity - \
-        int(data['quantity'])
+    find_name_crystal.quantity = find_name_crystal.quantity - int(data['quantity'])
     print(find_name_crystal.quantity)
     db.session.add(find_name_crystal)
     db.session.commit()
     orders_schema = OrdersSchema()
     attached = orders_schema.dump(new_order)
-
     return make_response(jsonify(attached), 200)
 
-
-@app.route('/orders', methods=['GET'])
-def get_orders():
-    get_orders = Orders.query.all()
-    orders_schema = OrdersSchema(many=True)
-    orders = orders_schema.dump(get_orders)
-    return make_response(jsonify(orders))
-
-
 @app.route('/ordersjoin', methods=['GET'])
-def join_get():
-    join = db.session.query(Stock, Orders, Client).filter(
+def get_join():
+    join = db.session.query(
+    Orders.quantity, 
+    Stock.name_crystal, 
+    Client.name_client, 
+    Orders.id_stock, 
+    Orders.id_client, 
+    Orders.id_order, 
+    Orders.time).filter(
         Orders.id_stock == Stock.id_stock,
         Orders.id_client == Client.id_client).all()
     orders_schema = OrdersSchema(many=True)
     ordersjoin = orders_schema.dump(join)
-    print(join)
-    return make_response(({"join": ordersjoin}), 200)
+    return make_response(jsonify(ordersjoin), 200)
+
+@app.route('/ordersjoin/<id_order>', methods=['GET'])
+def get_order_by_id(id_order):
+    get_orderById = Orders.query.get(id_order)
+    if not get_orderById:
+        return make_response({'error': 'order not found'}, 404)
+    orders_schema = OrdersSchema()
+    idByOrder = orders_schema.dump(get_orderById)
+    return make_response(jsonify(idByOrder), 200)
+
+@app.route('/ordersjoin/<id_order>', methods=['DELETE'])
+def delete_order_by_id(id_order):
+    get_id_order = Orders.query.get(id_order)
+    if not get_id_order:
+        return make_response({'error': 'order not found'}, 404)
+    try:
+        db.session.delete(get_id_order)
+        db.session.commit()
+        return make_response({'order': 'removed'}, 200)
+    except Exception:
+        return make_response({'Error': "Order can't be deleted"}, 405)

@@ -1,3 +1,4 @@
+<app-navbar></app-navbar>
 <div class="container">
   <div class="table-wrapper">
     <div class="table-title">
@@ -8,12 +9,7 @@
           </h2>
         </div>
         <div class="col-sm-6">
-          <button
-            class="btn btn-success"
-            type="button"
-            data-toggle="modal"
-            [routerLink]="['/neworder']"
-          >
+          <button class="btn btn-success" type="button" data-toggle="modal" [routerLink]="['/neworder']">
             <i class="icon-plus"></i> <span>Add New Order</span>
           </button>
         </div>
@@ -22,34 +18,27 @@
     <table class="table table-striped table-hover">
       <thead>
         <tr>
-          <th>Id client</th>
-          <th>Id stock</th>
-          <th>Quantity</th>
           <th>Name Crystal</th>
+          <th>Name Client</th>
+          <th>Quantity</th>
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let item of items">
-          <tr *ngFor="let ord of orders">
-            <td>
-              <span>{{ ord.id_client }}</span>
-            </td>
-            <td>
-              <span>{{ ord.id_stock }} </span>
-            </td>
-            <td>
-              <span>{{ ord.quantity }} </span>
-            </td>
-            <td>
-              {{ item.name_crystal }}
-            </td>
-          </tr>
-        </ng-container>
-        <!-- <tr *ngFor="let item of items">
+        <tr *ngFor="let order of orders">
           <td>
-            <span>{{ item.name_crystal }}</span>
+            <span>{{ order.name_crystal }}</span>
           </td>
-        </tr> -->
+          <td>
+            <span>{{ order.name_client }} </span>
+          </td>
+          <td>
+            <span>{{ order.quantity }} </span>
+          </td>
+          <td>
+            <a class="delete" data-toggle="modal" (click)="deleteOrders(order.id_order)"><i class="icon-trash"
+                data-toggle="tooltip" title="Delete"></i></a>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>

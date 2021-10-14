@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { StockComponent } from 'src/app/Stock/stock/stock.component';
 import { StockService } from 'src/app/Stock/services/stock.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Stock, StockResponse } from '../../../models/stock';
+import { Stock } from '../../../models/stock';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -12,6 +11,8 @@ import { HttpClient } from '@angular/common/http';
   providers: [StockService],
 })
 export class ModalComponent implements OnInit {
+  edit: boolean = false;
+
   item: Stock = {
     id_stock: 0,
     name_crystal: '',
@@ -35,19 +36,15 @@ export class ModalComponent implements OnInit {
           this.item = res;
           this.item.id_stock = res.id_stock;
           this.edit = true;
-          console.log('item', this.item); // la actualización
-          console.log('funcion this.item = res', res); //el que hay que editar
         },
         (err) => console.log(err)
       );
     }
   }
-  edit: boolean = false;
 
   saveNewItem(item: Stock) {
     this.httpClient.post(this.baseUrl + 'newstock', item).subscribe(
       (newitem) => {
-        console.log('savenewitem', newitem);
         this.router.navigate(['/stock']);
       },
       (err) => {
@@ -56,14 +53,9 @@ export class ModalComponent implements OnInit {
     );
   }
 
-  enviarDatos(): any {
-    console.log(this.item.id_stock);
-  }
-
   updateStock() {
     this.StockService.updateStock(this.item.id_stock, this.item).subscribe(
       (res) => {
-        console.log(res);
         this.router.navigate(['/stock']);
       },
       (err) => console.error(err)

@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Stock, StockResponse } from '../models/stock';
+import { Stock } from '../models/stock';
 import { StockService } from '../services/stock.service';
-import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-stock',
@@ -10,31 +9,25 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./stock.component.css'],
 })
 export class StockComponent implements OnInit {
+  edit: boolean = false;
+  alert: boolean = false;
+  items: Stock[] = [];
   @Input() title: string = 'Stock';
-
-  @Input() items: Stock[] = [];
 
   private baseUrl = 'http://localhost:5000/';
   constructor(
     private httpClient: HttpClient,
     private StockService: StockService,
-    private router: Router,
-    private activeRoute: ActivatedRoute
-  ) {}
-  edit: boolean = false;
-  alert: boolean = false;
+    ) {}
 
   ngOnInit(): void {
     this.getStock();
   }
 
   public getStock() {
-    // this.httpClient.get<StockResponse>(this.baseUrl + 'stock').subscribe(
       this.StockService.getStock().subscribe(  
     (res) => {
         this.items = res;
-        console.log('this.items', this.items);
-        console.log('response.stock', res);
       },
       (err) => {
         if (err.status == 400) {
@@ -50,7 +43,7 @@ export class StockComponent implements OnInit {
     var answer = confirm('Are you sure?');
     if (answer == true) {
       this.httpClient
-        .delete<StockResponse>(this.baseUrl + 'stock/' + id_stock)
+        .delete<Stock>(this.baseUrl + 'stock/' + id_stock)
         .subscribe(
           (res) => {
             this.getStock();

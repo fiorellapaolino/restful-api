@@ -9,12 +9,12 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./clients-form.component.css']
 })
 export class ClientsFormComponent implements OnInit {
+  edit: boolean = false;
+
   client: Clients = {
     id_client: 0,
     name_client: '',
   };
-  private baseUrl = 'http://localhost:5000/';
-  edit: boolean = false;
 
   constructor( 
     private ClientsService: ClientsService,
@@ -29,7 +29,6 @@ export class ClientsFormComponent implements OnInit {
         res => {
           console.log(res)
           this.client = res;
-          // this.client.id_client = res.id_client;
           this.edit = true;
         },
         (err) => { if (err.status == 404) console.log(err);
@@ -41,7 +40,6 @@ export class ClientsFormComponent implements OnInit {
   saveNewClient(client: Clients) {
       this.ClientsService.saveClients(this.client).subscribe(
       (newclient) => {
-        console.log('savenewitem', newclient);
         this.router.navigate(['/client']);
       },
       (err) => {

@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "crypto-handbook-327414": {
+      "hosting": {
+        "crystalshop": [
+          "crypto-handbook-327414"
+        ]
+      }
+    }
+  }
+}

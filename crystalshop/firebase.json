@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "crystalshop",
+      "public": "dist/crystalshop",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

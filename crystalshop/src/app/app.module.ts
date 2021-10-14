@@ -11,7 +11,19 @@ import { ModalComponent } from './Stock/stock/components/modal/modal.component';
 import { ClientsFormComponent } from './Clients/components/clients-form/clients-form.component';
 import { OrdersListComponent } from './Orders/components/orders-list/orders-list.component';
 import { OrdersFormComponent } from './Orders/components/orders-form/orders-form.component';
-
+import { LinechartComponent } from './Orders/components/linechart/linechart.component';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { PiechartComponent } from './Stock/stock/components/piechart/piechart.component';
+import { GoogleSigninComponent } from './google-signin/components/google-signin/google-signin.component';
+import { AuthService } from './shared/auth/auth.service';
+import { environment } from '../environments/environment';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from "@angular/fire/auth";
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { NavbarComponent } from './shared/navbar/navbar.component';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AuthGuard } from './shared/guard/auth.guard';
 
 @NgModule({
   declarations: [
@@ -22,16 +34,26 @@ import { OrdersFormComponent } from './Orders/components/orders-form/orders-form
     ClientsFormComponent,
     OrdersListComponent,
     OrdersFormComponent,
+    LinechartComponent,
+    PiechartComponent,
+    GoogleSigninComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     HttpClientModule,
-    FormsModule
-  ],
-  providers: [],
-  // entryComponents: [ModalComponent],
+    FormsModule,
+    HighchartsChartModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
+    AngularFireDatabaseModule,
+    AngularFireStorageModule
+
+    ],
+  providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-md bg-dark d-flex justify-content-between">
+    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="64" height="64" viewBox="0 0 172 172"
+        style=" fill:#000000;">
+        <defs>
+            <linearGradient x1="86" y1="18.14063" x2="86" y2="161.92188" gradientUnits="userSpaceOnUse"
+                id="color-1_Ef3whWnZUJXL_gr1">
+                <stop offset="0" stop-color="#00c6ff"></stop>
+                <stop offset="1" stop-color="#0072ff"></stop>
+            </linearGradient>
+        </defs>
+        <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter"
+            stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none"
+            font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+            <path d="M0,172v-172h172v172z" fill="none"></path>
+            <g fill="url(#color-1_Ef3whWnZUJXL_gr1)">
+                <path
+                    d="M131.46041,22.19673c-0.61032,-0.99831 -1.69612,-1.60714 -2.86622,-1.60712h-85.18837c-1.17009,-0.00001 -2.2559,0.60881 -2.86622,1.60713l-21.00147,34.35431c-0.70211,1.14841 -0.65095,2.60504 0.13001,3.70136l63.31784,88.89242l0.02251,0.06484l0.01915,-0.00672l0.42093,0.59091c0.63022,0.88515 1.64963,1.41081 2.73621,1.41094h0.0047c1.0881,-0.00153 2.10807,-0.52998 2.73688,-1.41799l0.41858,-0.59125l0.01915,0.00638l0.02184,-0.0645l62.95133,-88.89276c0.7759,-1.09569 0.82491,-2.54813 0.12463,-3.69363zM93.55154,27.30836h30.34624l-8.33528,24.40317zM109.4051,54.91638h-46.52768l23.13635,-25.93437zM56.59573,51.8664l-8.45655,-24.55703h30.36573zM50.53978,54.91638h-22.12753l14.15372,-23.15281zM112.17457,61.63513l-26.00156,76.12512l-26.21387,-76.12344zM129.46225,31.80757l14.12684,23.1088h-22.02104zM28.90205,61.63513h23.95033l22.41409,65.09125zM119.27293,61.63513h23.84652l-46.06341,65.04691z">
+                </path>
+            </g>
+        </g>
+    </svg>
+    <div class="nav-margin navbar-container">
+        <ul class="nav justify-content-center navbar-nav navbar-right">
+            <li class="nav-item nav-link"><a href="/stock">Stock</a>
+                <div class="underline"></div>
+            </li>
+            <li class="nav-item nav-link"><a href="/client">Clients</a>
+                <div class="underline"></div>
+            </li>
+            <li class="nav-item nav-link"><a href="/ordersjoin">Orders</a>
+                <div class="underline"></div>
+            </li>
+            <li class="nav-item nav-link"><a href="/charts">Reports</a>
+                <div class="underline"></div>
+            </li>
+        </ul>
+    </div>
+    <div *ngIf="authService.userData as user" class="dropdown">
+        <button class="dropbtn letra">
+            <i class="fas fa-user-circle"></i>
+            {{(user.displayName) ? user.displayName : 'User'}}
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+        </button>
+        <div class="dropdown-content">
+            <a type="button" *ngIf="user != null!" (click)="authService.SignOut()">
+                <i class="fas fa-sign-out-alt"></i>
+                Sign Out
+            </a>
+        </div>
+    </div>
+</nav>

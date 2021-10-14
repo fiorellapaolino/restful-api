@@ -30,6 +30,12 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
+            "allowedCommonJsDependencies": [
+              "firebase",
+              "@firebase/firestore",
+              "@firebase/database",
+              "@firebase/app"
+           ],
             "scripts": []
           },
           "configurations": {
@@ -100,6 +106,10 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     }
