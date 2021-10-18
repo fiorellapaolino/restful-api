@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Stock } from '../models/stock';
 import { StockService } from '../services/stock.service';
@@ -8,25 +8,32 @@ import { StockService } from '../services/stock.service';
   templateUrl: './stock.component.html',
   styleUrls: ['./stock.component.css'],
 })
-export class StockComponent implements OnInit {
+export class StockComponent implements OnInit, OnDestroy {
   edit: boolean = false;
   alert: boolean = false;
   items: Stock[] = [];
   @Input() title: string = 'Stock';
+  stockSuscription: any;
 
   private baseUrl = 'http://localhost:5000/';
   constructor(
     private httpClient: HttpClient,
-    private StockService: StockService,
-    ) {}
+    private StockService: StockService
+  ) {}
 
   ngOnInit(): void {
     this.getStock();
   }
 
+  ngOnDestroy(): void {
+    this.stockSuscription.unsubscribe();
+    console.log('on destroy on');
+  }
+
   public getStock() {
-      this.StockService.getStock().subscribe(  
-    (res) => {
+    this.stockSuscription = this.StockService.getStock().subscribe(
+      //onDestroy
+      (res) => {
         this.items = res;
       },
       (err) => {
@@ -42,19 +49,17 @@ export class StockComponent implements OnInit {
   delete(id_stock: number) {
     var answer = confirm('Are you sure?');
     if (answer == true) {
-      this.httpClient
-        .delete<Stock>(this.baseUrl + 'stock/' + id_stock)
-        .subscribe(
-          (res) => {
-            this.getStock();
-            this.alert = true;
-          },
-          (err) => {
-            if (err.status == 405) {
-              alert("Item can't be deleted. The item has an order.");
-            }
+      this.StockService.deleteStock(id_stock).subscribe(
+        (res) => {
+          this.getStock();
+          this.alert = true;
+        },
+        (err) => {
+          if (err.status == 405) {
+            alert("Item can't be deleted. The item has an order.");
           }
-        );
+        }
+      );
     }
   }
 }

@@ -17,7 +17,7 @@ export class PiechartComponent implements OnInit {
   }
 
   test() {
-    this.Stockservice.getChartsStock().subscribe((res: Stock[]) => {
+    this.Stockservice.getStock().subscribe((res: Stock[]) => {
       const auxData = res.map((stone) => ({
         name: stone.name_crystal,
         y: stone.quantity,

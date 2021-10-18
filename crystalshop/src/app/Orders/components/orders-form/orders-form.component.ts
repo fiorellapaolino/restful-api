@@ -38,11 +38,9 @@ export class OrdersFormComponent implements OnInit {
   ngOnInit(): void {
     this.Stockservice.getStock().subscribe((res: Stock[]) => {
       this.items = res;
-      console.log(this.items);
     });
     this.ClientsService.getClients().subscribe((res: Clients[]) => {
       this.clients = res;
-      console.log(this.clients);
     });
   }
   
@@ -50,7 +48,6 @@ export class OrdersFormComponent implements OnInit {
     this.httpClient.post<Orders[]>(this.baseUrl + 'neworder', order).subscribe(
       (newclient) => {
         this.orders = newclient;
-        console.log('savenewitem', newclient);
         this.router.navigate(['ordersjoin']);
       },
       (err) => {

@@ -27,7 +27,6 @@ export class ClientsFormComponent implements OnInit {
     if (params.id_client) {
       this.ClientsService.getOneClient(params.id_client).subscribe(
         res => {
-          console.log(res)
           this.client = res;
           this.edit = true;
         },
@@ -43,7 +42,8 @@ export class ClientsFormComponent implements OnInit {
         this.router.navigate(['/client']);
       },
       (err) => {
-        if (err.status == 500) console.log(err);
+        if (err.status == 500) 
+        console.log(err);
       }
     );
   }
@@ -54,7 +54,9 @@ export class ClientsFormComponent implements OnInit {
         console.log(res);
         this.router.navigate(['/client']);
       },
-      (err) => { if (err.status == 404) console.log(err);
+      (err) => { 
+        if (err.status == 404) 
+        console.log(err);
       }
     );
   }

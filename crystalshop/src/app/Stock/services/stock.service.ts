@@ -19,15 +19,6 @@ export class StockService {
     return this.httpClient.get<Stock[]>(this.baseUrl + '/stock');
   }
 
-  getmap() {
-    return this.httpClient.get<Stock[]>(this.baseUrl + '/stock');
-  }
-
-  getChartsStock() {
-    let urlAPI = this.baseUrl + '/stock';
-    return this.httpClient.get<Stock[]>(urlAPI).pipe(map((res) => res));
-  }
-
   getOneItem(id_stock: number) {
     return this.httpClient.get<Stock>(this.baseUrl + 'stock/' + id_stock);
   }
@@ -36,5 +27,9 @@ export class StockService {
     return this.httpClient.put<Stock>(
       this.baseUrl + 'stock/edit/' + id_stock, updated
     );
+  }
+
+  deleteStock(id_stock: number) {
+    return this.httpClient.delete<Stock[]>(this.baseUrl + 'stock/' + id_stock)
   }
 }

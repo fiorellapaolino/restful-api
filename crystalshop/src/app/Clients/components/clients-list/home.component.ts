@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { StockComponent } from '../../../Stock/stock/stock.component';
 import { Clients } from '../../models/clients';
 import { HttpClient } from '@angular/common/http';
 import { ClientsService } from '../../services/clients.services';
@@ -26,7 +25,7 @@ export class HomeComponent implements OnInit {
     this.getClients()
   }
 
-  getClients() {
+  getClients() { // usar services
     this.ClientsService.getClients().subscribe(
       res => {
         this.clients = res;

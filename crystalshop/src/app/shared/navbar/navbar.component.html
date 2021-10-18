@@ -21,26 +21,28 @@
     </svg>
     <div class="nav-margin navbar-container">
         <ul class="nav justify-content-center navbar-nav navbar-right">
-            <li class="nav-item nav-link"><a href="/stock">Stock</a>
+            <li class="nav-item nav-link"><a [routerLink]="['/stock']">Stock</a>
                 <div class="underline"></div>
             </li>
-            <li class="nav-item nav-link"><a href="/client">Clients</a>
+            <li class="nav-item nav-link"><a [routerLink]="['/client']">Clients</a>
                 <div class="underline"></div>
             </li>
-            <li class="nav-item nav-link"><a href="/ordersjoin">Orders</a>
+            <li class="nav-item nav-link"><a [routerLink]="['/ordersjoin']">Orders</a>
                 <div class="underline"></div>
             </li>
-            <li class="nav-item nav-link"><a href="/charts">Reports</a>
+            <li class="nav-item nav-link"><a [routerLink]="['/charts']">Reports</a>
                 <div class="underline"></div>
             </li>
         </ul>
     </div>
     <div *ngIf="authService.userData as user" class="dropdown">
-        <button class="dropbtn letra">
-            <i class="fas fa-user-circle"></i>
-            {{(user.displayName) ? user.displayName : 'User'}}
-            <i class="fas fa-angle-down" aria-hidden="true"></i>
-        </button>
+        <div>
+            <button class="dropbtn letra">
+                <i class="fas fa-user-circle"></i>
+                {{(user.displayName) ? user.displayName : 'User'}}
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+            </button>
+        </div>
         <div class="dropdown-content">
             <a type="button" *ngIf="user != null!" (click)="authService.SignOut()">
                 <i class="fas fa-sign-out-alt"></i>

@@ -6,7 +6,7 @@ import { ModalComponent } from './Stock/stock/components/modal/modal.component';
 import { ClientsFormComponent } from './Clients/components/clients-form/clients-form.component';
 import { OrdersListComponent } from './Orders/components/orders-list/orders-list.component';
 import { OrdersFormComponent } from './Orders/components/orders-form/orders-form.component';
-import { LinechartComponent } from './Orders/components/linechart/linechart.component';
+import { LinechartComponent } from './reports/components/linechart/linechart.component';
 import { GoogleSigninComponent } from './google-signin/components/google-signin/google-signin.component';
 import { AuthGuard } from './shared/guard/auth.guard';
 

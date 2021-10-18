@@ -116,7 +116,7 @@ def delete_stock_by_id(id_stock):
 @app.route('/stock/edit/<id_stock>', methods=['PUT'])
 def update_stock_by_id(id_stock):
     data = request.get_json()
-    get_stockById = Stock.query.get(id_stock)
+    get_stockById = Stock.query.get(id_stock) 
     if not get_stockById:
         return make_response({'error': 'item not found'}, 404)
     if data.get('name_crystal'):

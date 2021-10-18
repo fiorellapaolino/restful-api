@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Orders } from '../../models/orders';
-import { OrdersService } from '../../services/orders.service';
+import { Orders } from '../../../Orders/models/orders';
+import { OrdersService } from '../../../Orders/services/orders.service';
 import * as Highcharts from 'highcharts';
 import * as dayjs from 'dayjs';
 
@@ -21,7 +21,7 @@ export class LinechartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.OrdersService.getCharts().subscribe((res: Orders[]) => {      
+    this.OrdersService.getOrders().subscribe((res: Orders[]) => {      
       if (res) {
         const uniqueValues = res.forEach((orders) => {
           const D = new Date(orders.time);

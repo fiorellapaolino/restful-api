@@ -17,56 +17,10 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-        if (this.authService.isLoggedIn !== true) {
-          window.alert('Access denied, only logged in user can access this page')
-          this.router.navigate(['login']);
-          
-        }
-        return true;
-      }
-    //   if(this.authService.AuthLogin !== null){
-    //     this.router.parseUrl("/stock");
-    //     return true;
-    //   }
-    //     window.alert("no")
-    //     this.router.parseUrl("/login");
-    //     return false;
-      
-    // }
-    } 
-    
-    //cuando entra false, cuando alert true
-//   canActivate() {
-//     if (this.authService.isLoggedIn !== null) {
-//       this.router.navigate(['/stock']);
-//       return true;
-//     } else {
-//       this.router.navigate(['/login']);
-//     }
-//     return false;
-//   }
-// }
-/* 
-
-| UrlTree {
-      if(this.authService.AuthLogin != null) {
-        return true;
-      }else{
-        this.router.navigate(['login']);
-        // this.authService.redirectUrl = state.url;
-        // this.router.navigate(['/'])
-        return false
-        }
+    if (this.authService.isLoggedIn !== true) {
+      window.alert('Access denied, only logged in user can access this page');
+      this.router.navigate(['login']);
     }
-    
-
-       | UrlTree {
-      if(this.authService.isLoggedIn == null) {
-        // alert("lgueae")
-        this.router.navigate(['login']);
-      }
-        // this.authService.redirectUrl = state.url;
-        return true
-        
-    }
-*/
+    return true;
+  }
+} 
