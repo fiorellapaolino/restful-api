@@ -59,11 +59,11 @@ def index():
 
 @app.route('/stock/<id_stock>', methods=['GET'])
 def get_stock_by_id(id_stock):
-    get_stockById = Stock.query.get(id_stock)
-    if not get_stockById:
+    get_stock_by_id = Stock.query.get(id_stock)
+    if not get_stock_by_id:
         return make_response({'error': 'item not found'}, 404)
     stock_schema = StockSchema()
-    item = stock_schema.dump(get_stockById)
+    item = stock_schema.dump(get_stock_by_id)
     return make_response(jsonify(item))
 
 # stock CREATE
@@ -74,8 +74,8 @@ def create_stock():
     data = request.get_json()
     if not ('name_crystal' or 'quantity') in data:
         return make_response(jsonify({"Error": "Fields are required."}), 400)
-    find = Stock.query.filter_by(name_crystal=data['name_crystal']).first()
-    if not find:
+    find_item = Stock.query.filter_by(name_crystal=data['name_crystal']).first()
+    if not find_item:
         new_data = Stock(
             name_crystal=data['name_crystal'],
             quantity=data['quantity']
@@ -86,12 +86,12 @@ def create_stock():
         new = stock_schema.dump(new_data)
         return make_response(jsonify({"item": new}), 201)
 
-    find.quantity = int(data['quantity']) + int(find.quantity)
+    find_item.quantity = int(data['quantity']) + int(find_item.quantity)
 
     db.session.add(find)
     db.session.commit()
     stock_schema = StockSchema()
-    attached = stock_schema.dump(find)
+    attached = stock_schema.dump(find_item)
     return make_response(jsonify({"item": attached}), 201)
 
 # stock DELETE
@@ -116,17 +116,17 @@ def delete_stock_by_id(id_stock):
 @app.route('/stock/edit/<id_stock>', methods=['PUT'])
 def update_stock_by_id(id_stock):
     data = request.get_json()
-    get_stockById = Stock.query.get(id_stock) 
-    if not get_stockById:
+    get_stock_by_id = Stock.query.get(id_stock) 
+    if not get_stock_by_id:
         return make_response({'error': 'item not found'}, 404)
     if data.get('name_crystal'):
-        get_stockById.name_crystal = data['name_crystal']
+        get_stock_by_id.name_crystal = data['name_crystal']
     if data.get('quantity'):
-        get_stockById.quantity = data['quantity']
-    db.session.add(get_stockById)
+        get_stock_by_id.quantity = data['quantity']
+    db.session.add(get_stock_by_id)
     db.session.commit()
     stock_schema = StockSchema()
-    item = stock_schema.dump(get_stockById)
+    item = stock_schema.dump(get_stock_by_id)
     return make_response(jsonify(item))
 
 # CLIENT
@@ -166,11 +166,11 @@ def client():
 
 @app.route('/client/<id_client>', methods=['GET'])
 def get_client_by_id(id_client):
-    get_clientById = Client.query.get(id_client)
-    if not get_clientById:
+    get_client_by_id = Client.query.get(id_client)
+    if not get_client_by_id:
         return make_response({'error': 'client not found'}, 404)
     client_schema = ClientSchema()
-    idByClient = client_schema.dump(get_clientById)
+    idByClient = client_schema.dump(get_client_by_id)
     return make_response(jsonify(idByClient), 200)
 
 # client CREATE
@@ -179,11 +179,11 @@ def get_client_by_id(id_client):
 @app.route('/newclient', methods=['POST'])  # ERROR si el cliente ya existe
 def create_client():
     data = request.get_json()
-    findclient = Client.query.filter_by(
+    find_client = Client.query.filter_by(
         name_client=data['name_client']).first()
-    if findclient:
+    if find_client:
         return make_response(jsonify({"Error": "The client already exists"}), 400)
-    if not findclient:
+    if not find_client:
         client_schema = ClientSchema()
         new_client = Client(
             name_client=data['name_client'],
@@ -214,15 +214,15 @@ def delete_client_by_id(id_client):
 @app.route('/client/edit/<id_client>', methods=['PUT'])
 def update_client_by_id(id_client):
     data = request.get_json()
-    get_clientById = Client.query.get(id_client)
-    if not get_clientById:
+    get_client_by_id = Client.query.get(id_client)
+    if not get_client_by_id:
         return make_response({'error': 'item not found'}, 404)
     if data.get('name_client'):
-        get_clientById.name_client = data['name_client']
-    db.session.add(get_clientById)
+        get_client_by_id.name_client = data['name_client']
+    db.session.add(get_client_by_id)
     db.session.commit()
     client_schema = ClientSchema()
-    client_id = client_schema.dump(get_clientById)
+    client_id = client_schema.dump(get_client_by_id)
     return make_response(jsonify(client_id), 200)
 
 # ORDERS
