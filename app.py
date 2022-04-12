@@ -88,7 +88,7 @@ def create_stock():
 
     find_item.quantity = int(data['quantity']) + int(find_item.quantity)
 
-    db.session.add(find)
+    db.session.add(find_item)
     db.session.commit()
     stock_schema = StockSchema()
     attached = stock_schema.dump(find_item)
