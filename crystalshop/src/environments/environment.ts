@@ -5,12 +5,13 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyA1z2FyPvwdLqpnuMhAQEWzXCRArQdDqJk",
-    authDomain: "crypto-handbook-327414.firebaseapp.com",
-    projectId: "crypto-handbook-327414",
-    storageBucket: "crypto-handbook-327414.appspot.com",
-    messagingSenderId: "1008426586446",
-    appId: "1:1008426586446:web:8fa02bdf00bfdac07c8e1f"
+    apiKey: "AIzaSyBKzTajKgw40tPM0IVYSVkK0RySA0JQux4",
+    authDomain: "crystal-store-29f0e.firebaseapp.com",
+    projectId: "crystal-store-29f0e",
+    storageBucket: "crystal-store-29f0e.appspot.com",
+    messagingSenderId: "449425368988",
+    appId: "1:449425368988:web:2b209d733cdbf909f48a59",
+    measurementId: "G-5YX73DEXBE"
   }
 };
 

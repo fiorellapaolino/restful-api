@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Orders } from '../../models/orders';
-import { StockService } from 'src/app/Stock/services/stock.service';
 import { Stock } from 'src/app/Stock/models/stock';
 import { OrdersService } from '../../services/orders.service';
+import { Clients } from 'src/app/Clients/models/clients';
 
 @Component({
   selector: 'app-orders-list',
@@ -13,24 +13,21 @@ export class OrdersListComponent implements OnInit {
   title: string = 'Orders';
   orders: Orders[] = [];
   items: Stock[] = [];
+  clients: Clients[] = [];
 
   constructor(
-    private StockService: StockService,
-    private OrdersService: OrdersService
+    private OrdersService: OrdersService,
   ) {}
 
   ngOnInit(): void {
     this.getOrders();
-    this.StockService.getStock().subscribe((res: Stock[]) => {
-      this.items = res;
-      console.log(this.items);
-    });
   }
 
   getOrders() {
     this.OrdersService.getOrders().subscribe(
       (res) => {
         this.orders = res;
+        console.log(res, "res clients")
       },
       (err) => {
         if (err.status == 400) {

@@ -11,7 +11,7 @@ import time
 from flask_cors import CORS
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://crystaldev:lmao@localhost/crystalshop'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:lmaolmao@localhost/crystalshop'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -158,8 +158,8 @@ def client():
     # get_client = Client.query.all()
     get_client = db.session.query(Client).all()
     client_schema = ClientSchema(many=True)
-    client = client_schema.dump(get_client)
-    return make_response(jsonify(client), 200)
+    name_client = client_schema.dump(get_client)
+    return make_response(jsonify(name_client), 200)
 
 # client READ by id
 
@@ -240,7 +240,6 @@ class Orders(db.Model):
     name_client = db.Column(db.String(60))
     name_crystal = db.Column(db.String(60))
 
-
 def __init__(self, quantity, name_client, name_crystal, id_client, id_order, id_stock):
     self.id_order = id_order
     self.id_stock = id_stock
@@ -249,7 +248,6 @@ def __init__(self, quantity, name_client, name_crystal, id_client, id_order, id_
     self.name_client = name_client
     self.name_crystal = name_crystal
     self.quantity = quantity
-
 
 class OrdersSchema(ma.Schema):
     id_order = fields.Integer()
@@ -260,20 +258,18 @@ class OrdersSchema(ma.Schema):
     name_crystal = fields.String()
     name_client = fields.String()
 
-
 # Orders CREATE
 
-
+    """ name_client = data['name_client']).first() """
 @app.route('/neworder', methods=['POST'])
 def create_order():
     data = request.get_json()
-    print(data)
     find_name_client = Client.query.filter_by(
-        name_client=data['name_client']).first()
+        name_client = data['name_client']).first()
     if not find_name_client:
         return make_response(jsonify({"Error": "Client not found"}), 404)
     find_name_crystal = Stock.query.filter_by(
-        name_crystal=data['name_crystal']).first()
+        name_crystal = data['name_crystal']).first()
     if not find_name_crystal:
         return make_response(jsonify({"Error": "Crystal not found"}), 404)
     if int(data['quantity']) > find_name_crystal.quantity:

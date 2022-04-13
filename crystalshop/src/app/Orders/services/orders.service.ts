@@ -21,4 +21,5 @@ import { Orders } from '../models/orders';
   deleteOrders(id_order: number) {
     return this.httpClient.delete<Orders[]>(this.baseUrl + 'ordersjoin/' + id_order)
   }
+
 }
